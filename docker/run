@@ -23,15 +23,15 @@ THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 BENCHMARK_RESULTS_DIR="$(dirname "$THIS_DIR")/benchmark_results/${ROS_DISTRO}"
 BENCHMARK_DIR="$(dirname "$THIS_DIR")/benchmark"
 
-if [ ! -d ${BENCHMARK_RESULTS_DIR} ]; then
-  mkdir -p ${BENCHMARK_RESULTS_DIR};
+if [ ! -d "${BENCHMARK_RESULTS_DIR}" ]; then
+  mkdir -p "${BENCHMARK_RESULTS_DIR}";
 fi
 
 echo "Benchmark results will be available on your machine at" ${BENCHMARK_RESULTS_DIR}
 
-docker run -it --rm --network=host --privileged \
--v ${BENCHMARK_RESULTS_DIR}:/benchmark_results \
--v ${BENCHMARK_DIR}:/ws/src/ros2_benchmark_container/benchmark \
+docker run -it --rm --network=host --privileged --shm-size=1000mb \
+-v "${BENCHMARK_RESULTS_DIR}:/benchmark_results" \
+-v "${BENCHMARK_DIR}:/ws/src/ros2_benchmark_container/benchmark" \
 -v /var/run/docker.sock:/var/run/docker.sock \
 -e ROS_DOMAIN_ID=${ROS_DOMAIN_ID} \
 -e IMAGE_NAME=${IMAGE_NAME} \
