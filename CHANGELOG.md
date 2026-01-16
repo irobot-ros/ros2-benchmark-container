@@ -1,5 +1,13 @@
 # Changelog for ROS 2 Benchmark Container
 
+## 1.0.1 (2026-01-16)
+* Expose SYSTEM_EXECUTOR as a command line option when starting the container
+* Fix handling of paths with spaces
+* Add rmw_zenoh_cpp to the test matrix
+* Update documentation
+* Set default shm size for the container to 1000mb
+* Change shm size for remote host tests to 1000mb
+
 ## 1.0.0 (2026-01-06)
 
 Initial public release of the ROS 2 Benchmark Container.
