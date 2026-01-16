@@ -1,0 +1,20 @@
+{
+    "nodes": [
+        {
+            "node_name": "action_node",
+            "action_servers": [
+                {"action_name": "stamped100kb", "action_type": "stamped100kb"}
+            ],
+            "action_clients": [
+                {"action_name": "stamped100kb", "action_type": "stamped100kb", "freq_hz": 250}
+            ]
+        },
+        {
+            "node_name": "multi_node",
+            "action_clients": [
+                {"action_name": "stamped100kb", "action_type": "stamped100kb", "period_ms": 600000}
+              ],
+             "number": 9
+        }
+    ]
+}

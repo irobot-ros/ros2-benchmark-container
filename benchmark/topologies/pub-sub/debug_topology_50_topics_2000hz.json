@@ -1,0 +1,259 @@
+{
+  "nodes": [
+    {
+      "node_name": "debug_pub_node_sp",
+      "subscribers": [
+        {
+          "topic_name": "test_0",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_1",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_2",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_3",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_4",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_5",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_6",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_7",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_8",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_9",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_10",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_11",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_12",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_13",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_14",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_15",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_16",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_17",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_18",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_19",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_20",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_21",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_22",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_23",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_24",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_25",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_26",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_27",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_28",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_29",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_30",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_31",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_32",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_33",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_34",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_35",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_36",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_37",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_38",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_39",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_40",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_41",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_42",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_43",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_44",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_45",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_46",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_47",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_48",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_49",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        }
+      ]
+    }
+  ]
+}

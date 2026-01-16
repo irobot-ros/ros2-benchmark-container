@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Copyright (c) 2026, iRobot ROS
+# All rights reserved.
+#
+# This source code is licensed under the BSD 3-Clause License found in the
+# LICENSE file in the root directory of this source tree.
+
+# =================================================================================================
+# This script builds the Docker container for the ROS 2 Benchmarking Suite.
+# It supports multiple ROS 2 distributions and allows specifying the build target.
+#
+# Usage:
+#   ./build_benchmark_container.sh [ROS_DISTRO] [CONTAINER_BUILD_TARGET]
+# =================================================================================================
+
+# Supported ROS 2 distributions
+SUPPORTED_DISTROS=("jazzy" "kilted" "rolling")
+# The ROS distribution to build the container for (default is "jazzy")
+ROS_DISTRO="${1:-"jazzy"}"
+
+if [[ ! "${SUPPORTED_DISTROS[@]}" =~ "${ROS_DISTRO}" ]]; then
+    echo "ERROR: Unsupported ROS 2 distribution: '${ROS_DISTRO}'"
+    echo "Supported distributions are: ${SUPPORTED_DISTROS[*]}. Default to 'jazzy'."
+    exit 1
+fi
+
+# Export the ROS_DISTRO variable for docker-bake.hcl
+export DISTRO="${ROS_DISTRO}"
+
+# The build target to use from docker-bake.hcl (default is "default")
+CONTAINER_BUILD_TARGET="${2:-"default"}"
+
+THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+cd $(dirname "${THIS_DIR}")
+
+echo "Building ROS 2 Benchmark Container for ROS ${ROS_DISTRO}."
+docker buildx bake ${CONTAINER_BUILD_TARGET} --load

@@ -1,0 +1,39 @@
+{
+  "nodes": [
+    {
+      "node_name": "pub_node_0",
+      "publishers": [
+        {
+          "topic_name": "test_topic_0",
+          "msg_type": "stamped1mb",
+          "freq_hz": 393,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "pub_node_1",
+      "publishers": [
+        {
+          "topic_name": "test_topic_1",
+          "msg_type": "stamped1mb",
+          "freq_hz": 421,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "sub_node_mp",
+      "subscribers": [
+        {
+          "topic_name": "test_topic_0",
+          "msg_type": "stamped1mb"
+        },
+        {
+          "topic_name": "test_topic_1",
+          "msg_type": "stamped1mb"
+        }
+      ]
+    }
+  ]
+}

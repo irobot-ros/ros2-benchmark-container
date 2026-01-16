@@ -1,0 +1,4 @@
+[submodule "external/ros2-performance"]
+	path = external/ros2-performance
+	url = https://github.com/irobot-ros/ros2-performance.git
+	branch = rolling

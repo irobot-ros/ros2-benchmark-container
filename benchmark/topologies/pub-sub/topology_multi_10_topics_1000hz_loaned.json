@@ -1,0 +1,159 @@
+{
+  "nodes": [
+    {
+      "node_name": "pub_node_0",
+      "publishers": [
+        {
+          "topic_name": "test_topic_0",
+          "msg_type": "stamped1mb",
+          "freq_hz": 842,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "pub_node_1",
+      "publishers": [
+        {
+          "topic_name": "test_topic_1",
+          "msg_type": "stamped1mb",
+          "freq_hz": 218,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "pub_node_2",
+      "publishers": [
+        {
+          "topic_name": "test_topic_2",
+          "msg_type": "stamped1mb",
+          "freq_hz": 473,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "pub_node_3",
+      "publishers": [
+        {
+          "topic_name": "test_topic_3",
+          "msg_type": "stamped1mb",
+          "freq_hz": 777,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "pub_node_4",
+      "publishers": [
+        {
+          "topic_name": "test_topic_4",
+          "msg_type": "stamped1mb",
+          "freq_hz": 883,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "pub_node_5",
+      "publishers": [
+        {
+          "topic_name": "test_topic_5",
+          "msg_type": "stamped1mb",
+          "freq_hz": 303,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "pub_node_6",
+      "publishers": [
+        {
+          "topic_name": "test_topic_6",
+          "msg_type": "stamped1mb",
+          "freq_hz": 88,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "pub_node_7",
+      "publishers": [
+        {
+          "topic_name": "test_topic_7",
+          "msg_type": "stamped1mb",
+          "freq_hz": 752,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "pub_node_8",
+      "publishers": [
+        {
+          "topic_name": "test_topic_8",
+          "msg_type": "stamped1mb",
+          "freq_hz": 871,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "pub_node_9",
+      "publishers": [
+        {
+          "topic_name": "test_topic_9",
+          "msg_type": "stamped1mb",
+          "freq_hz": 685,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "sub_node_mp",
+      "subscribers": [
+        {
+          "topic_name": "test_topic_0",
+          "msg_type": "stamped1mb"
+        },
+        {
+          "topic_name": "test_topic_1",
+          "msg_type": "stamped1mb"
+        },
+        {
+          "topic_name": "test_topic_2",
+          "msg_type": "stamped1mb"
+        },
+        {
+          "topic_name": "test_topic_3",
+          "msg_type": "stamped1mb"
+        },
+        {
+          "topic_name": "test_topic_4",
+          "msg_type": "stamped1mb"
+        },
+        {
+          "topic_name": "test_topic_5",
+          "msg_type": "stamped1mb"
+        },
+        {
+          "topic_name": "test_topic_6",
+          "msg_type": "stamped1mb"
+        },
+        {
+          "topic_name": "test_topic_7",
+          "msg_type": "stamped1mb"
+        },
+        {
+          "topic_name": "test_topic_8",
+          "msg_type": "stamped1mb"
+        },
+        {
+          "topic_name": "test_topic_9",
+          "msg_type": "stamped1mb"
+        }
+      ]
+    }
+  ]
+}

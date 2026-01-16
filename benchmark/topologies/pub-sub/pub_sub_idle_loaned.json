@@ -1,0 +1,24 @@
+{
+  "nodes": [
+    {
+      "node_name": "idle_pub_node",
+      "publishers": [
+        {
+          "topic_name": "idle_topic",
+          "msg_type": "stamped100kb",
+          "freq_hz": 3600000,
+          "msg_pass_by": "loaned_msg"
+        }
+      ]
+    },
+    {
+      "node_name": "idle_sub_node",
+      "subscribers": [
+        {
+          "topic_name": "idle_topic",
+          "msg_type": "stamped100kb"
+        }
+      ]
+    }
+  ]
+}

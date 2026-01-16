@@ -1,0 +1,19 @@
+{
+  "nodes": [
+    {
+      "node_name": "debug_sub_node",
+      "subscribers": [
+        {
+          "topic_name": "test_0",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        },
+        {
+          "topic_name": "test_1",
+          "msg_type": "stamped1mb",
+          "qos_reliability": "best_effort"
+        }
+      ]
+    }
+  ]
+}
