@@ -11,14 +11,48 @@
 # It supports multiple ROS 2 distributions and allows specifying the architecture and ROS_DOMAIN_ID.
 #
 # Usage:
-#   ./run_benchmark_container.sh [ROS_DISTRO] [ARCH] [ROS_DOMAIN_ID]
+# From the root of this repo,
+#   docker/run -d [ROS_DISTRO] -a [ARCH] -i [ROS_DOMAIN_ID] -x SYSTEM_EXECUTOR
 # =================================================================================================
 
-ROS_DISTRO="${1:-"jazzy"}"
-ARCH="${2:-$(dpkg --print-architecture)}"
-IMAGE_NAME="ros2-benchmark-container:${ROS_DISTRO}-${ARCH}"
-ROS_DOMAIN_ID="${3:-28}"
+usage() {
+  echo "Usage: $0 [-d <ros_distro>] [-a <architecture>] [-i <ros_domain_id>] [-x <system_executor>]"
+  exit 1
+}
 
+ROS_DISTRO="jazzy"
+ARCH="$(dpkg --print-architecture)"
+ROS_DOMAIN_ID="28"
+SYSTEM_EXECUTOR="${4:-"EventsExecutor"}"
+
+while [[ $# -gt 0 ]]; do
+  key="$1"
+  case $key in 
+  -d | --distro)
+    ROS_DISTRO="$2"
+    shift 2
+    ;;
+  -a | --architecture)
+    ARCH="$2"
+    shift 2
+    ;;
+  -i | --ros_domain_id)
+    ROS_DOMAIN_ID="$2"
+    shift 2
+    ;;
+  -x | --executor)
+    SYSTEM_EXECUTOR="$2"
+    shift 2
+    ;;
+  *)
+    echo "Unknown option: $key"
+    usage
+    ;;
+  esac
+
+done
+
+IMAGE_NAME="ros2-benchmark-container:${ROS_DISTRO}-${ARCH}"
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 BENCHMARK_RESULTS_DIR="$(dirname "$THIS_DIR")/benchmark_results/${ROS_DISTRO}"
 BENCHMARK_DIR="$(dirname "$THIS_DIR")/benchmark"
@@ -35,5 +69,6 @@ docker run -it --rm --network=host --privileged --shm-size=1000mb \
 -v /var/run/docker.sock:/var/run/docker.sock \
 -e ROS_DOMAIN_ID=${ROS_DOMAIN_ID} \
 -e IMAGE_NAME=${IMAGE_NAME} \
+-e SYSTEM_EXECUTOR=${SYSTEM_EXECUTOR} \
 --name ros2-benchmark-container-${ROS_DISTRO}-${ARCH} \
 ${IMAGE_NAME}

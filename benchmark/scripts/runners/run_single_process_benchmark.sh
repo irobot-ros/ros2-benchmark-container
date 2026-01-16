@@ -72,6 +72,21 @@ source "$CONFIG_FILE"
 GOVERNOR_SCRIPT="${ROS2_BENCHMARK_SCRIPTS_DIR}/utils/set_cpu_governor.sh"
 IROBOT_BENCHMARK="${PERF_FRAMEWORK_INSTALL_DIR}/irobot_benchmark/irobot_benchmark"
 
+# Possible args for different executor types
+declare -A EXECUTOR_ARGS=( ["SingleThreadedExecutor"]="1" ["EventsExecutor"]="2" ["MultiThreadedExecutor"]="3")
+
+# Configure system executor, using the EventsExecutor by default. 
+if [[ -z "${SYSTEM_EXECUTOR}" ]]; then
+  SYSTEM_EXECUTOR="EventsExecutor"
+fi
+
+if [[ -v EXECUTOR_ARGS[${SYSTEM_EXECUTOR}] ]]; then
+    EXECUTOR_ARG="${EXECUTOR_ARGS[${SYSTEM_EXECUTOR}]}"
+else 
+  echo -e "Invalid executor ${SYSTEM_EXECUTOR}. Please choose from SingleThreadedExecutor, MultiThreadedExecutor or EventsExecutor."
+  exit 1
+fi
+
 # Set CPU governor to 'performance' mode for consistent results.
 original_governor=$(cat /sys/devices/system/cpu/cpufreq/policy0/scaling_governor)
 echo "Setting CPU governor to 'performance'."
@@ -161,7 +176,7 @@ for RMW in "${RMW_LIST[@]}"; do
 
       # --- Local Benchmark Execution ---
       # Construct and execute the main benchmark command.
-      COMMAND="${IROBOT_BENCHMARK} ${TOPOLOGY_PATH} -x 3 ${IPC_OPTION} -t ${ROS2_BENCHMARK_TEST_DURATION} -s 1000 --csv-out on --results-dir ${RESULT_FOLDER}"
+      COMMAND="${IROBOT_BENCHMARK} ${TOPOLOGY_PATH} --executor ${EXECUTOR_ARG}  ${IPC_OPTION} -t ${ROS2_BENCHMARK_TEST_DURATION} -s 1000 --csv-out on --results-dir ${RESULT_FOLDER}"
       echo -e "     Command: \n       $COMMAND"
 
       eval "$COMMAND"
