@@ -121,6 +121,13 @@ docker/build arm64
 
     The script will create a new directory inside `/benchmark_results` (e.g., `results_07_01_25_00h25`) containing the raw results. By default, it will also automatically generate post-processed results. To disable this, use the `--no-results` flag.
 
+
+    NOTE - At this time, if running benchmarks on rmw_zenoh (which is enabled by default), the router needs to be manually started inside the container before the benchmarks are run via
+    
+    ```bash
+    ros2 run rmw_zenoh_cpp rmw_zenohd & 
+    ```
+
 ### Analyze the results
 
 At the end of a successful benchmark run, the results are automatically processed. The output directory will contain:
