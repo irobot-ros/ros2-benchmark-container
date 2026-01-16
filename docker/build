@@ -32,7 +32,8 @@ export DISTRO="${ROS_DISTRO}"
 CONTAINER_BUILD_TARGET="${2:-"default"}"
 
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-cd $(dirname "${THIS_DIR}")
+PARENT_DIR=$(dirname "${THIS_DIR}")
+cd "$PARENT_DIR"
 
 echo "Building ROS 2 Benchmark Container for ROS ${ROS_DISTRO}."
 docker buildx bake ${CONTAINER_BUILD_TARGET} --load
