@@ -97,11 +97,11 @@ docker/build arm64
     The `docker/run` script starts the container and attaches a shell to it. It also mounts the `benchmark_results/${ROS_DISTRO}` directory from your host into the container's `/benchmark_results` directory to persist the results.
 
     ```bash
-    docker/run <ros-distro>
+    docker/run -d <ros-distro>
     ```
-    For example, to run the `jazzy` container:
+    For example, to run the `kilted` container:
     ```bash
-    docker/run jazzy
+    docker/run -d kilted
     ```
     If no distribution is specified, it defaults to `jazzy`.
 
@@ -120,6 +120,13 @@ docker/build arm64
     ```
 
     The script will create a new directory inside `/benchmark_results` (e.g., `results_07_01_25_00h25`) containing the raw results. By default, it will also automatically generate post-processed results. To disable this, use the `--no-results` flag.
+
+
+    NOTE - At this time, if running benchmarks on rmw_zenoh (which is enabled by default), the router needs to be manually started inside the container before the benchmarks are run via
+    
+    ```bash
+    ros2 run rmw_zenoh_cpp rmw_zenohd & 
+    ```
 
 ### Analyze the results
 
@@ -153,6 +160,19 @@ The Docker container provides a standardized environment with the following key 
     -   `reportlab`: For generating the final PDF report.
 
 ## Advanced Usage
+
+### Configuring the system executor
+
+The executor implementation used for the benchmarks is configurable by the user when launching the container.
+By default, the EventsExecutor is used, but you can specify an alternate executor via the `-x` flag, e.g.:
+
+```bash
+docker/run -x SingleThreadedExecutor
+```
+
+By default, available executors are the `SingleThreadedExecutor`, `EventsExecutor` and `MultiThreadedExecutor`. If you have an executor from a different package that you'd like to benchmark, add it as a submodule in `/external`, include it in the `package.xml` and `CMakeLists.txt` for `ros2-performance`, add it to the list of available executors and extend the list of executors in `run_single_process_benchmark` and `run_multi_process_benchmark`.
+
+An example for how to modify `ros2-performance` to add a new executor can be found [here](https://github.com/irobot-ros/ros2-performance/commit/71335ba88f5196a02b06a197cf5cae32b4ffb607). 
 
 ### Adding a new test matrix
 

@@ -69,7 +69,7 @@ echo "Launching '$CONTAINER_NAME' container with RMW=$RMW_IMPLEMENTATION..."
 #   --shm-size: Sets the size of /dev/shm (shared memory), crucial for some inter-process communication mechanisms.
 #   -e VAR=...:   Passes environment variables from this container to the new one to ensure consistent ROS/RMW configuration.
 #   --rm:         Automatically removes the container when it exits.
-docker run -d --rm --network=host --privileged --shm-size=100mb \
+docker run -d --rm --network=host --privileged --shm-size=1000mb \
     -e ROS_DOMAIN_ID=${ROS_DOMAIN_ID} \
     -e RMW_IMPLEMENTATION=${RMW_IMPLEMENTATION} \
     -e FASTRTPS_DEFAULT_PROFILES_FILE=${FASTRTPS_DEFAULT_PROFILES_FILE} \

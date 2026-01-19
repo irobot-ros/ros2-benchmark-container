@@ -432,6 +432,7 @@ def generate_report(
         elements,
         "System Information:<br/>"
         f"• <b>ROS Version:</b> {os.getenv('ROS_DISTRO', 'unknown')}<br/>"
+        f"• <b>System Executor:</b> {os.getenv('SYSTEM_EXECUTOR', 'unknown')}<br/>"
         f"• <b>Architecture:</b> {platform.machine()}<br/>",
     )
 
