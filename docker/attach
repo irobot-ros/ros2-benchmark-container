@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Copyright (c) 2026, iRobot ROS
+# All rights reserved.
+#
+# This source code is licensed under the BSD 3-Clause License found in the
+# LICENSE file in the root directory of this source tree.
+
+# =================================================================================================
+# This script allows for easy attachment to a running benchmark container.
+# Usage:
+# From the root of this repo,
+#   docker/attach <CONTAINER_PATTERN>
+# =================================================================================================
+
+CONTAINER_PATTERN=$1
+
+# Get the container ID
+CONTAINER=$(docker container ls | grep -E ${CONTAINER_PATTERN} | awk '{print $1}')
+
+# Execute the entrypoint script inside the container
+docker container exec -it "$CONTAINER" /bin/bash
