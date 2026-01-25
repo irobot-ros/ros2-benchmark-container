@@ -15,9 +15,34 @@
 # =================================================================================================
 
 # Supported ROS 2 distributions
+usage() {
+  echo "Usage: $0 [-d <ros_distro>] [-a <architecture>]"
+  exit 1
+}
 SUPPORTED_DISTROS=("jazzy" "kilted" "rolling")
 # The ROS distribution to build the container for (default is "jazzy")
-ROS_DISTRO="${1:-"jazzy"}"
+ROS_DISTRO="jazzy"
+ARCH="$(dpkg --print-architecture)"
+
+while [[ $# -gt 0 ]]; do
+  key="$1"
+  case $key in 
+  -d | --distro)
+    ROS_DISTRO="$2"
+    shift 2
+    ;;
+  -a | --architecture)
+    ARCH="$2"
+    shift 2
+    ;;
+  *)
+    echo "Unknown option: $key"
+    usage
+    ;;
+  esac
+
+done
+
 
 if [[ ! "${SUPPORTED_DISTROS[@]}" =~ "${ROS_DISTRO}" ]]; then
     echo "ERROR: Unsupported ROS 2 distribution: '${ROS_DISTRO}'"
@@ -29,7 +54,7 @@ fi
 export DISTRO="${ROS_DISTRO}"
 
 # The build target to use from docker-bake.hcl (default is "default")
-CONTAINER_BUILD_TARGET="${2:-"default"}"
+CONTAINER_BUILD_TARGET="${ARCH}"
 
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 PARENT_DIR=$(dirname "${THIS_DIR}")
