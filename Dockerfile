@@ -84,4 +84,5 @@ RUN echo 'alias run_single_process_benchmark="${COLCON_SRC_DIR}/ros2_benchmark_c
 RUN echo 'alias run_multi_process_benchmark="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/runners/run_multi_process_benchmark.sh"' >> ~/.bashrc
 RUN echo 'alias run_all_benchmarks="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/run_all_benchmarks.sh"' >> ~/.bashrc
 RUN echo 'alias generate_all_metrics="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/generate_all_metrics.sh"' >> ~/.bashrc
+RUN echo 'alias run_zenoh_router="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/scripts/runners/run_zenoh_router.sh"' >> ~/.bashrc
 CMD ["bash"]
