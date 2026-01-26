@@ -43,7 +43,6 @@ while [[ $# -gt 0 ]]; do
 
 done
 
-
 if [[ ! "${SUPPORTED_DISTROS[@]}" =~ "${ROS_DISTRO}" ]]; then
     echo "ERROR: Unsupported ROS 2 distribution: '${ROS_DISTRO}'"
     echo "Supported distributions are: ${SUPPORTED_DISTROS[*]}. Default to 'jazzy'."
@@ -60,5 +59,5 @@ THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 PARENT_DIR=$(dirname "${THIS_DIR}")
 cd "$PARENT_DIR"
 
-echo "Building ROS 2 Benchmark Container for ROS ${ROS_DISTRO}."
+echo "Building $ARCH ROS 2 Benchmark Container for ROS ${ROS_DISTRO}."
 docker buildx bake ${CONTAINER_BUILD_TARGET} --load
