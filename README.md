@@ -29,6 +29,7 @@ The benchmark results can be used to:
     - [Adding a new test matrix](#adding-a-new-test-matrix)
     - [Adding new topologies](#adding-new-topologies)
     - [Adding a new RMW](#adding-a-new-rmw)
+    - [Deploying to a remote host](#deploying-to-a-remote-host)
   - [Repository Structure](#repository-structure)
   - [Contributing](#contributing)
   - [License](#license)
@@ -66,10 +67,10 @@ The following ROS 2 distributions are supported:
 
 ## Usage
 
-Convenience scripts are provided in the `docker/` directory to simplify the process of building and running the benchmark container. Make sure they are executable:
+Convenience scripts are provided in the `docker/` directory to simplify the process of building, running, deploying and attaching to the benchmark container. Make sure they are executable:
 
 ```bash
-chmod +x docker/build docker/run
+chmod +x docker/build docker/run docker/attach docker/deploy
 ```
 
 ### Build the Docker container
@@ -84,11 +85,18 @@ docker/build
 
 This will automatically build containers for the ROS 2 distributions specified in `docker-bake.hcl`. By default, this is `jazzy`.
 
-To build for `arm64` architecture, pass `arm64` as an argument:
+To build for an alternate distro, use the `-d` flag:
 
 ```bash
-docker/build arm64
+docker/build -d rolling
 ```
+
+By default, containers are built for the host architecture. To build a container compatible with `arm64` architecture, pass `arm64` as an argument to the `-a` flag:
+
+```bash
+docker/build -a arm64
+```
+Note that `arm64` builds are currently much slower than `amd64`, as buildkit makes use of QEMU for emulation based cross-building.
 
 ### Run the benchmarks
 
@@ -125,7 +133,7 @@ docker/build arm64
     NOTE - At this time, if running benchmarks on rmw_zenoh (which is enabled by default), the router needs to be manually started inside the container before the benchmarks are run via
     
     ```bash
-    ros2 run rmw_zenoh_cpp rmw_zenohd & 
+    run_zenoh_router
     ```
 
 ### Analyze the results
@@ -216,6 +224,19 @@ To add a new RMW implementation to the benchmark suite:
     -   `COMMS_my_middleware`: Permutations of communication modes to test (e.g., `ipc_on`, `ipc_off`).
     -   `LOANED_ENV_VARS_my_middleware`: Environment variables for loaned messages.
 4.  **(Optional) Add XML profiles**: If the new RMW requires specific configuration, add new XML profiles in the `benchmark/profiles` directory.
+
+
+### Deploying to a remote host
+Convience tools are included to deploy benchmark containers built on this host to another host. Checks are automatically run to make sure the target arch matches the docker image arch. A common use case might be benchmarking on more constrained hardware with less build capabilities, like a raspberry pi. 
+
+1.  **Ensure the remote host has this repo**: make sure the `ros2-benchmark-container` repo is available on the remote machine.
+2.  **Ensure docker and ssh access**: `docker/deploy` will automatically SSH into the remote host to install the docker image from a file. Please ensure you have SSH access to the target host and that it is capable of running docker without sudo. 
+3.  **Build and deploy your image**: For example, to deploy a `kilted` container to a remote host with `arm64` architecture, you would do
+
+    ```bash
+    docker/build -d kilted -a arm64 
+    docker/deploy -d kilted -a arm64 -u REMOTE_USER -h REMOTE_IP
+    ```
 
 ## Repository Structure
 
