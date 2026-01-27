@@ -1,0 +1,115 @@
+#!/bin/bash
+
+# Copyright (c) 2026, iRobot ROS
+# All rights reserved.
+#
+# This source code is licensed under the BSD 3-Clause License found in the
+# LICENSE file in the root directory of this source tree.
+
+# =================================================================================================
+# This helper script enables easy deployment of benchmark container images to remote hosts.
+# It will automatically
+# - save the specified image to a .tgz
+# - scp it to the remote host
+# - load the docker image on the host over SSH
+# Automatic checks are in place to ensure the remote host's CPU architecture 
+# matches that of the image you're trying to export.
+#
+# Usage:
+# From the root of this repo,
+#   docker/deploy -d [ROS_DISTRO] -a [ARCH] -u [USER] -h [REMOTE_IP]
+# =================================================================================================
+
+
+APP_NAME="ros2-benchmark-container"
+
+usage() {
+  echo "Usage: $0 [-d <ros_distro>] [-a <architecture>] [-u <user on remote host>] [-h <host IP to deploy container to>]"
+  exit 1
+}
+
+ROS_DISTRO="jazzy"
+ARCH="$(dpkg --print-architecture)"
+REMOTE_USER=$(whoami)
+
+while [[ $# -gt 0 ]]; do
+  key="$1"
+  case $key in 
+  -d | --distro)
+    ROS_DISTRO="$2"
+    shift 2
+    ;;
+  -a | --architecture)
+    ARCH="$2"
+    shift 2
+    ;;
+  -u | --user)
+    REMOTE_USER="$2"
+    shift 2
+    ;;
+  -h | --host)
+    REMOTE_IP="$2"
+    shift 2
+    ;;
+  *)
+    echo "Unknown option: $key"
+    usage
+    ;;
+  esac
+
+done
+
+if [ -z ${REMOTE_IP+x} ]; then 
+  echo "Please specify an IP with '-h'"; 
+  usage
+  exit 1
+fi
+
+if ping -c 1 ${REMOTE_IP} > /dev/null 2>&1; then
+  echo "deploy: ${REMOTE_IP} is online."
+else
+  echo "deploy: Ping to ${REMOTE_IP} failed."
+  exit 1
+fi
+echo "deploy: Checking CPU architecture on remote host ${REMOTE_IP}"
+REMOTE_ARCH=$(ssh ${REMOTE_USER}@${REMOTE_IP} "dpkg --print-architecture")
+echo "deploy: Remote host architecture is ${REMOTE_ARCH}."
+
+if [ "${ARCH}" != "${REMOTE_ARCH}" ]; then
+	echo "deploy: The remote host's CPU architecture ${REMOTE_ARCH} is different from the specified architecture ${ARCH}."
+    echo "Please specify a compatible architecture."
+    exit 1
+fi
+
+IMAGE_NAME=${APP_NAME}
+TAG=${ROS_DISTRO}-${ARCH}
+echo "deploy: Looking for ${IMAGE_NAME}:${TAG} on this computer."
+
+# Get the image name and tag
+RAW_IMAGE_STR=$(docker image ls | grep -E ${IMAGE_NAME} | grep -E ${TAG})
+IMAGE_ARR=($RAW_IMAGE_STR)
+
+if [ -z ${IMAGE_ARR[0]+x} ]; then 
+  echo "deploy: Image ${IMAGE_NAME}:${TAG} not found. Are you trying to send a container that hasn't been built yet?"
+  exit 1
+else
+  FOUND_IMAGE=${IMAGE_ARR[0]}:${IMAGE_ARR[1]}
+  echo "deploy: Found image ${FOUND_IMAGE}."
+fi
+
+# Store container in a .tgz
+DEFAULT_IMAGE_FILE_NAME="${APP_NAME}-${TAG}.tgz"
+
+IMAGE_FILE_NAME=${ARG_FILE_NAME:-$DEFAULT_IMAGE_FILE_NAME}
+
+echo "deploy: Saving image to ${IMAGE_FILE_NAME}"
+
+docker save -o ${IMAGE_FILE_NAME} ${FOUND_IMAGE}
+
+echo "deploy: Sending image file ${IMAGE_FILE_NAME} to ${REMOTE_IP}"
+scp ${IMAGE_FILE_NAME} ${REMOTE_USER}@${REMOTE_IP}:/tmp
+
+echo "deploy: Loading image file ${IMAGE_FILE_NAME} to ${REMOTE_IP}'s docker environment."
+ssh ${REMOTE_USER}@${REMOTE_IP} "docker load -i /tmp/${IMAGE_FILE_NAME}"
+
+echo "deploy: All done! Please ensure the remote host has a copy of the ros2-benchmark-container repo as well."

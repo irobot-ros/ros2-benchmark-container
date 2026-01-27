@@ -1,5 +1,14 @@
 # Changelog for ROS 2 Benchmark Container
 
+## 1.0.2 (2026-01-26)
+* Replace currently unused `zenoh_low_latency.json` with `ZENOH_DEFAULT_ROUTER_CONFIG.json5` and `ZENOH_DEFAULT_SESSION_CONFIG.json5`. These configs will be used by default for all test matrices. Currently, the only change from defaults is to massively reduce the cli/srv session timeout. 
+* Add `docker/attach`, a script for easily attaching to running benchmark containers.
+* add `docker/deploy`, a script to deploy containers built on one host to a remote host, with automatic checks for compatible architecture
+* Shrink image size by ~1/3 (a little under 1 GB) by using the `builder` pattern. Now we will only copy over the resulting `install` folder instead of all the `build` artifacts.
+* make `docker/build` API consistent with `docker/run`
+* update documentation for new tooling
+* fix report generation looking for the wrong multi-process plot images
+
 ## 1.0.1 (2026-01-16)
 * Expose SYSTEM_EXECUTOR as a command line option when starting the container
 * Fix handling of paths with spaces

@@ -23,7 +23,7 @@ usage() {
 ROS_DISTRO="jazzy"
 ARCH="$(dpkg --print-architecture)"
 ROS_DOMAIN_ID="28"
-SYSTEM_EXECUTOR="${4:-"EventsExecutor"}"
+SYSTEM_EXECUTOR="EventsExecutor"
 
 while [[ $# -gt 0 ]]; do
   key="$1"
@@ -52,7 +52,8 @@ while [[ $# -gt 0 ]]; do
 
 done
 
-IMAGE_NAME="ros2-benchmark-container:${ROS_DISTRO}-${ARCH}"
+APP_NAME="ros2-benchmark-container"
+IMAGE_NAME="${APP_NAME}:${ROS_DISTRO}-${ARCH}"
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 BENCHMARK_RESULTS_DIR="$(dirname "$THIS_DIR")/benchmark_results/${ROS_DISTRO}"
 BENCHMARK_DIR="$(dirname "$THIS_DIR")/benchmark"
@@ -70,5 +71,5 @@ docker run -it --rm --network=host --privileged --shm-size=1000mb \
 -e ROS_DOMAIN_ID=${ROS_DOMAIN_ID} \
 -e IMAGE_NAME=${IMAGE_NAME} \
 -e SYSTEM_EXECUTOR=${SYSTEM_EXECUTOR} \
---name ros2-benchmark-container-${ROS_DISTRO}-${ARCH} \
+--name="${APP_NAME}-${ROS_DISTRO}-${ARCH}" \
 ${IMAGE_NAME}
