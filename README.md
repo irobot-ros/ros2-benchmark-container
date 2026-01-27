@@ -227,7 +227,7 @@ To add a new RMW implementation to the benchmark suite:
 
 
 ### Deploying to a remote host
-Convience tools are included to deploy benchmark containers built on this host to another host. Checks are automatically run to make sure the target arch matches the docker image arch. A common use case might be benchmarking on more constrained hardware with less build capabilities, like a raspberry pi. 
+Convenience tools are included to deploy benchmark containers built on this host to another host. Checks are automatically run to make sure the target arch matches the docker image arch. A common use case might be benchmarking on more constrained hardware with less build capabilities, like a raspberry pi. 
 
 1.  **Ensure the remote host has this repo**: make sure the `ros2-benchmark-container` repo is available on the remote machine.
 2.  **Ensure docker and ssh access**: `docker/deploy` will automatically SSH into the remote host to install the docker image from a file. Please ensure you have SSH access to the target host and that it is capable of running docker without sudo. 
