@@ -532,8 +532,8 @@ def generate_report(
 
     elements.append(multi_latency_table)
     latency_plots_filenames = [
-        "latency_pub-sub_multi_process_PubDur",
-        "latency_pub-sub_multi_process_SubLat",
+        "latency_pub-sub_multi_process_scalability_PubDur",
+        "latency_pub-sub_multi_process_scalability_SubLat",
     ]
 
     add_multi_plot(elements, results_dir, latency_plots_filenames)

@@ -7,6 +7,7 @@
 * Shrink image size by ~1/3 (a little under 1 GB) by using the `builder` pattern. Now we will only copy over the resulting `install` folder instead of all the `build` artifacts.
 * make `docker/build` API consistent with `docker/run`
 * update documentation for new tooling
+* fix report generation looking for the wrong multi-process plot images
 
 ## 1.0.1 (2026-01-16)
 * Expose SYSTEM_EXECUTOR as a command line option when starting the container
