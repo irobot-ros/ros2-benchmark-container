@@ -106,6 +106,8 @@ if [[ -z "${RMW_LIST}" || -z "${TOPOLOGY1}" ]]; then
   exit 1
 fi
 
+RUNNER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
+
 # --- Output Directory Setup ---
 OUTPUT_DIR="${ROS2_BENCHMARK_OUTPUT_DIR}/${OUTPUT_DIR_NAME}"
 echo "Results will be stored in: $OUTPUT_DIR"
@@ -136,6 +138,19 @@ for RMW in "${RMW_LIST[@]}"; do
 
     # Loop through the paired topologies defined in the config file.
     for i in "${!TOPOLOGY1[@]}"; do
+      if [[ "$RMW" == "zenoh" ]]; then
+        # Automatically start the router in the background
+        echo "Detected that $RMW is being benchmarked. Spawning router..."
+
+        ${RUNNER_DIR}/run_zenoh_router.sh ${ZENOH_ROUTER_CONFIG_URI} &
+
+        # Wait for the router to come online
+        sleep 0.5
+
+        ROUTER_PID=$(pgrep zenohd)
+        echo "Spawned zenoh router with PID ${ROUTER_PID}"
+      fi
+
       T1="${TOPOLOGY1[i]}"
       T2="${TOPOLOGY2[i]}"
       RES="${RESULTS[i]}"
@@ -176,6 +191,17 @@ for RMW in "${RMW_LIST[@]}"; do
 
       eval "$COMMAND"
 
+      if [[ -n ${ROUTER_PID} ]]; then 
+        echo "Stopping zenoh router with PID $ROUTER_PID"
+        kill ${ROUTER_PID}
+        while kill -0 "${ROUTER_PID}"; do
+            echo "Waiting for zenoh router to exit.,,"
+            sleep 0.1
+        done        
+        echo "Stopped zenoh router with PID $ROUTER_PID"
+      fi
+
+
       if [ $? -ne 0 ]; then
         echo -e "\033[31m[ERROR] Command failed: $COMMAND\033[0m"
         exit 1
@@ -185,6 +211,12 @@ for RMW in "${RMW_LIST[@]}"; do
       echo "     Moving log files to $RESULT_FOLDER"
       mv ./*log "$RESULT_FOLDER"
     done
+        # Unset environment variables at the end of the loop to avoid side effects.
+    unset FASTRTPS_DEFAULT_PROFILES_FILE
+    unset RMW_FASTRTPS_USE_QOS_FROM_XML
+    unset CYCLONEDDS_URI
+    unset ZENOH_ROUTER_CONFIG_URI
+    unset ZENOH_SESSION_CONFIG_URI
   done
 done
 

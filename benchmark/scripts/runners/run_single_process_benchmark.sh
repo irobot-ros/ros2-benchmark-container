@@ -104,6 +104,8 @@ if [[ -z "${RMW_LIST}" || -z "${TOPOLOGIES}" ]]; then
   exit 1
 fi
 
+RUNNER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
+
 # --- Output Directory Setup ---
 # Append a suffix to the output directory if running in remote host mode.
 OUTPUT_DIR="${ROS2_BENCHMARK_OUTPUT_DIR}/${OUTPUT_DIR_NAME}"
@@ -144,6 +146,19 @@ for RMW in "${RMW_LIST[@]}"; do
 
     # Loop through each topology defined in the config file.
     for TOPOLOGY in "${TOPOLOGIES[@]}"; do
+      if [[ "$RMW" == "zenoh" ]]; then
+        # Automatically start the router in the background
+        echo "Detected that $RMW is being benchmarked. Spawning router..."
+
+        ${RUNNER_DIR}/run_zenoh_router.sh ${ZENOH_ROUTER_CONFIG_URI} &
+
+        # Wait for the router to come online
+        sleep 0.5
+
+        ROUTER_PID=$(pgrep zenohd)
+        echo "Spawned zenoh router with PID ${ROUTER_PID}"
+      fi
+
       TEST_CASE_DIR="${OUTPUT_DIR}/${TOPOLOGY}"
       mkdir -p "${TEST_CASE_DIR}"
 
@@ -170,7 +185,6 @@ for RMW in "${RMW_LIST[@]}"; do
             exit 1
         fi
         echo "       Running remote process in '$REMOTE_HOST_MODE' mode..."
-        RUNNER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
         "${RUNNER_DIR}/run_remote_process.sh" "$RMW_IMPLEMENTATION" "$SCRIPT_FOR_REMOTE_HOST"
       fi
 
@@ -180,6 +194,16 @@ for RMW in "${RMW_LIST[@]}"; do
       echo -e "     Command: \n       $COMMAND"
 
       eval "$COMMAND"
+
+      if [[ -n ${ROUTER_PID} ]]; then 
+        echo "Stopping zenoh router with PID $ROUTER_PID"
+        kill ${ROUTER_PID}
+        while kill -0 "${ROUTER_PID}"; do
+            echo "Waiting for zenoh router to exit.,,"
+            sleep 0.1
+        done        
+        echo "Stopped zenoh router with PID $ROUTER_PID"
+      fi
 
       if [ $? -ne 0 ]; then
         echo -e "\033[31m[ERROR] Command failed: $COMMAND\033[0m"
@@ -191,6 +215,8 @@ for RMW in "${RMW_LIST[@]}"; do
     unset FASTRTPS_DEFAULT_PROFILES_FILE
     unset RMW_FASTRTPS_USE_QOS_FROM_XML
     unset CYCLONEDDS_URI
+    unset ZENOH_ROUTER_CONFIG_URI
+    unset ZENOH_SESSION_CONFIG_URI
   done
 done
 
