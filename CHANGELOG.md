@@ -1,5 +1,14 @@
 # Changelog for ROS 2 Benchmark Container
 
+## 1.0.3 (2026-01-28)
+* Configure router URI via optional arg to `start_zenoh_router`
+* autostart zenoh router if zenoh is being benchmarked. To ensure the sessions are able to connect, the scripts will wait for a configurable timeout `ZENOH_ROUTER_WAIT_TIMEOUT` (defaults to 1 second)
+* Fix script aliases in dockerfile
+* Add a few more aliases to dockerfile
+* change default permissions of benchmark scripts (+x)
+* Ensure `run_single_process_benchmark` and `run_multi_process_benchmark` can be run standalone by defining default environment variables
+* update docs to reflect zenoh router autostart behavior
+
 ## 1.0.2 (2026-01-26)
 * Replace currently unused `zenoh_low_latency.json` with `ZENOH_DEFAULT_ROUTER_CONFIG.json5` and `ZENOH_DEFAULT_SESSION_CONFIG.json5`. These configs will be used by default for all test matrices. Currently, the only change from defaults is to massively reduce the cli/srv session timeout. 
 * Add `docker/attach`, a script for easily attaching to running benchmark containers.

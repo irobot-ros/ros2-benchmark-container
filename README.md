@@ -129,11 +129,8 @@ Note that `arm64` builds are currently much slower than `amd64`, as buildkit mak
 
     The script will create a new directory inside `/benchmark_results` (e.g., `results_07_01_25_00h25`) containing the raw results. By default, it will also automatically generate post-processed results. To disable this, use the `--no-results` flag.
 
-
-    NOTE - At this time, if running benchmarks on rmw_zenoh (which is enabled by default), the router needs to be manually started inside the container before the benchmarks are run via
-    
-    ```bash
-    run_zenoh_router
+    NOTE - If you have included rmw_zenoh in your test matrix, the router will automatically spawn in the background before the benchmarks run, and be automatically killed on exit.
+    For a given test matrix, a custom router config can be specified with `ZENOH_ROUTER_CONFIG_URI`. In the absence of one, the default `profiles/ZENOH_ROUTER_DEFAULT_CONFIG.json5` is used.
     ```
 
 ### Analyze the results
