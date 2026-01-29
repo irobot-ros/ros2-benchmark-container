@@ -31,6 +31,13 @@ if [ $# -lt 1 ]; then
   exit 1
 fi
 
+# Set default timeout for how long the script should wait after spawning the router
+# before running the benchmarks.
+if [[ -z "$ZENOH_ROUTER_WAIT_TIMEOUT" ]]; then
+  ZENOH_ROUTER_WAIT_TIMEOUT=1.0
+fi
+
+
 CONFIG_FILE=$1
 shift # Shift arguments to parse options
 
@@ -165,7 +172,7 @@ for RMW in "${RMW_LIST[@]}"; do
         ${RUNNER_DIR}/run_zenoh_router.sh ${ZENOH_ROUTER_CONFIG_URI} &
 
         # Wait for the router to come online
-        sleep 0.5
+        sleep ${ZENOH_ROUTER_WAIT_TIMEOUT}
 
         ROUTER_PID=$(pgrep zenohd)
         echo "Spawned zenoh router with PID ${ROUTER_PID}"
@@ -215,6 +222,7 @@ for RMW in "${RMW_LIST[@]}"; do
             sleep 0.1
         done        
         echo "Stopped zenoh router with PID $ROUTER_PID"
+        unset $ROUTER_PID
       fi
 
       if [ $? -ne 0 ]; then
