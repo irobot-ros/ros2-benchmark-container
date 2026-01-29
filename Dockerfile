@@ -12,7 +12,8 @@
 #
 # 1. `base`:         Specifies the base ROS 2 image to use.
 # 2. `dependencies`: Installs system dependencies and sets up the workspace.
-# 3. `ros2-benchmark-container`: Builds the ROS 2 packages and configures the final image.
+# 3. `builder`: Builds the ROS 2 packages and configures the final image.
+# 4. `ros2-benchmark-container`: Configures the final image.
 #
 # =================================================================================================
 
