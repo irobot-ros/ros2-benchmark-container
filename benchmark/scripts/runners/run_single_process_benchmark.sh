@@ -39,6 +39,18 @@ if [ ! -f "$CONFIG_FILE" ]; then
   exit 1
 fi
 
+# Ensure scripts directory is set if not provided externally.
+if [ -z "${ROS2_BENCHMARK_SCRIPTS_DIR}" ]; then
+  THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
+  ROS2_BENCHMARK_SCRIPTS_DIR="${THIS_DIR}/.."
+fi
+
+# Set default output path if not provided externally.
+if [[ -z "$ROS2_BENCHMARK_OUTPUT_DIR" ]]; then
+  current_date=$(date +"%d_%m_%y_%Hh%M")
+  ROS2_BENCHMARK_OUTPUT_DIR="/benchmark_results/results_${current_date}"
+fi
+
 # Set default test duration if not provided externally.
 if [ -z "${ROS2_BENCHMARK_TEST_DURATION}" ]; then
   ROS2_BENCHMARK_TEST_DURATION=1
