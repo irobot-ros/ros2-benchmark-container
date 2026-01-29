@@ -218,7 +218,7 @@ for RMW in "${RMW_LIST[@]}"; do
         echo "Stopping zenoh router with PID $ROUTER_PID"
         kill ${ROUTER_PID}
         while kill -0 "${ROUTER_PID}">/dev/null 2>&1; do
-            echo "Waiting for zenoh router to exit.,,"
+            echo "Waiting for zenoh router to exit..."
             sleep 0.1
         done        
         echo "Stopped zenoh router with PID $ROUTER_PID"
