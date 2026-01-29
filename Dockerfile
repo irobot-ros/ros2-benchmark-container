@@ -82,8 +82,11 @@ RUN echo 'source ${COLCON_INSTALL_DIR}/setup.bash' >> ~/.bashrc
 # Add aliases for the main benchmark scripts.
 RUN echo 'alias run_single_process_benchmark="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/scripts/runners/run_single_process_benchmark.sh"' >> ~/.bashrc
 RUN echo 'alias run_multi_process_benchmark="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/scripts/runners/run_multi_process_benchmark.sh"' >> ~/.bashrc
+RUN echo 'alias run_memory_benchmark="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/scripts/runners/run_memory_benchmark.sh"' >> ~/.bashrc
+RUN echo 'alias run_remote_process="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/scripts/runners/run_remote_process.sh"' >> ~/.bashrc
 RUN echo 'alias run_all_benchmarks="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/run_all_benchmarks.sh"' >> ~/.bashrc
 RUN echo 'alias run_long_benchmark="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/run_long_benchmark.sh"' >> ~/.bashrc
 RUN echo 'alias generate_all_metrics="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/generate_all_metrics.sh"' >> ~/.bashrc
 RUN echo 'alias run_zenoh_router="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/scripts/runners/run_zenoh_router.sh"' >> ~/.bashrc
+RUN echo 'alias set_cpu_governor="${COLCON_SRC_DIR}/ros2_benchmark_container/benchmark/scripts/utils/set_cpu_governor.sh"' >> ~/.bashrc
 CMD ["bash"]
