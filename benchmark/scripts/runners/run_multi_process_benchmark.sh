@@ -205,10 +205,11 @@ for RMW in "${RMW_LIST[@]}"; do
       # --- Local Benchmark Execution ---
       # Construct and execute the main benchmark command.
       # This launches two processes concurrently using the specified topologies.
-      COMMAND="${IROBOT_BENCHMARK} ${TOP1_PATH} ${TOP2_PATH} --executor ${EXECUTOR_ARG} --ipc off -t ${ROS2_BENCHMARK_TEST_DURATION} -s 1000 --csv-out on"
+      COMMAND="${IROBOT_BENCHMARK} ${TOP1_PATH} ${TOP2_PATH} --executor ${EXECUTOR_ARG} --ipc off -t ${ROS2_BENCHMARK_TEST_DURATION} -s 1000 --csv-out on --results-dir ${RESULT_FOLDER}"
       echo -e "     Command: \n       $COMMAND"
 
       eval "$COMMAND"
+      local benchmark_exit_code=$?
 
       if [[ -n ${ROUTER_PID} ]]; then 
         echo "Stopping zenoh router with PID $ROUTER_PID"
@@ -218,18 +219,13 @@ for RMW in "${RMW_LIST[@]}"; do
             sleep 0.1
         done        
         echo "Stopped zenoh router with PID $ROUTER_PID"
-        unset $ROUTER_PID
+        unset ROUTER_PID
       fi
 
-
-      if [ $? -ne 0 ]; then
+      if [ $benchmark_exit_code -ne 0 ]; then
         echo -e "\033[31m[ERROR] Command failed: $COMMAND\033[0m"
         exit 1
       fi
-
-      # Move the generated log files to the appropriate results folder.
-      echo "     Moving log files to $RESULT_FOLDER"
-      mv ./*log "$RESULT_FOLDER"
     done
         # Unset environment variables at the end of the loop to avoid side effects.
     unset FASTRTPS_DEFAULT_PROFILES_FILE

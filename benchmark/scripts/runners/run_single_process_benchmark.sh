@@ -213,6 +213,7 @@ for RMW in "${RMW_LIST[@]}"; do
       echo -e "     Command: \n       $COMMAND"
 
       eval "$COMMAND"
+      local benchmark_exit_code=$?
 
       if [[ -n ${ROUTER_PID} ]]; then 
         echo "Stopping zenoh router with PID $ROUTER_PID"
@@ -222,10 +223,10 @@ for RMW in "${RMW_LIST[@]}"; do
             sleep 0.1
         done        
         echo "Stopped zenoh router with PID $ROUTER_PID"
-        unset $ROUTER_PID
+        unset ROUTER_PID
       fi
 
-      if [ $? -ne 0 ]; then
+      if [ $benchmark_exit_code -ne 0 ]; then
         echo -e "\033[31m[ERROR] Command failed: $COMMAND\033[0m"
         exit 1
       fi
