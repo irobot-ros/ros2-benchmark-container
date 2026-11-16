@@ -1,3 +1,4 @@
+NOTICE - This repo is no longer actively maintained by iRobot. Please check the ros2 fork at https://github.com/ros2/ros2-benchmark-container for future developments.
 # ROS 2 Benchmark Container
 
 A Dockerized environment for benchmarking the performance of various ROS 2 Middleware (RMW) implementations.
